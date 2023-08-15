@@ -24,11 +24,9 @@ class Listing(models.Model):
     description = models.CharField(max_length=300)
     bid = models.ForeignKey('Bid', on_delete=models.SET_NULL, null=True)
     image = models.URLField()
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(default=True)
     publisher = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="listings")
-    comments = models.ForeignKey(
-        'Comment', on_delete=models.SET_NULL, null=True)
     category = models.CharField(
         max_length=20,
         choices=CATEGORY_CHOICES,
@@ -37,6 +35,7 @@ class Listing(models.Model):
 
 
 class Comment(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
     message = models.CharField(max_length=300)
     publisher = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="comments")
