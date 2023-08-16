@@ -14,7 +14,8 @@ class ListingForm(ModelForm):
     class Meta:
         model = Listing
         fields = ['title', 'description', 'image',
-                  'category', 'starting_bid', 'publisher']
+                  'category', 'starting_bid']
+        exclude = ['publisher', 'buyer']
 
 
 def index(request):
@@ -78,6 +79,9 @@ def register(request):
 def create(request):
     if request.method == 'POST':
         form = ListingForm(request.POST)
+        listing = form.save(commit=False)
+        listing.publisher = request.user
+        listing.save()
         if form.is_valid():
             # process the data in form.cleaned_data as required
             print(form.cleaned_data)
