@@ -87,3 +87,10 @@ def create(request):
             print(form.cleaned_data)
     return render(request, "auctions/create.html",
                   {"form": ListingForm()})
+
+
+def item(request, listing_id):
+    item = Listing.objects.get(id=listing_id)
+    return render(request, "auctions/item.html", {
+        "item": item
+    })

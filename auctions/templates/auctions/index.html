@@ -13,7 +13,7 @@
             <img class="listing-image" src="{{listing.image}}" alt="{{listing.title}}" />
         </div>
         <div class="listing-info col-8">
-            <p>{{listing.title}}</p>
+            <a href="{% url 'item' listing.id %}"> {{listing.title}} </a>
             <p>{{listing.description}}</p>
             <p>{{listing.starting_bid}}</p>
         </div>
