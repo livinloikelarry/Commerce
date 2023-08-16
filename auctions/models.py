@@ -24,7 +24,7 @@ CATEGORY_CHOICES = (
 class Listing(models.Model):
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=300)
-    image = models.URLField()
+    image = models.URLField(blank=True)
     is_active = models.BooleanField(default=True)
     publisher = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, related_name="listings")
