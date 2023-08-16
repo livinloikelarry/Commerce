@@ -4,6 +4,8 @@ body {
 .listing-image {
   width: inherit;
 }
-.listing-title {
-  padding-bottom: 40px;
+.row.listing-item {
+  margin: 30px 0px;
+  border: solid lightgray;
+  padding: 10px;
 }

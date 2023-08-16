@@ -9,7 +9,7 @@ from .models import User, Listing, Bid, Comment
 
 def index(request):
     return render(request, "auctions/index.html", {
-        "listings": Listing.objects.all()
+        "listings": Listing.objects.filter(is_active=True)
     })
 
 
