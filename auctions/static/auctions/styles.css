@@ -1,3 +1,9 @@
 body {
-    padding: 10px;
+  padding: 10px;
+}
+.listing-image {
+  width: inherit;
+}
+.listing-title {
+  padding-bottom: 40px;
 }
