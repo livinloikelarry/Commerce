@@ -24,11 +24,13 @@ CATEGORY_CHOICES = (
 class Listing(models.Model):
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=300)
-    bid = models.ForeignKey('Bid', on_delete=models.SET_NULL, null=True)
     image = models.URLField()
     is_active = models.BooleanField(default=True)
     publisher = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="listings")
+    starting_bid = models.PositiveIntegerField(default=0)
+    buyer = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, related_name="purchase")
     category = models.CharField(
         max_length=20,
         choices=CATEGORY_CHOICES,
@@ -52,6 +54,7 @@ class Comment(models.Model):
 class Bid(models.Model):
     amount = models.PositiveIntegerField()
     bidder = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.bidder} bid {self.amount}"

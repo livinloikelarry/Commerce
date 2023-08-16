@@ -3,8 +3,18 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
+from django.forms import ModelForm
 from .models import User, Listing, Bid, Comment
+
+# forms
+
+
+class ListingForm(ModelForm):
+    # missing bid and publisher
+    class Meta:
+        model = Listing
+        fields = ['title', 'description', 'image',
+                  'category', 'starting_bid', 'publisher']
 
 
 def index(request):
@@ -66,4 +76,10 @@ def register(request):
 
 
 def create(request):
-    return render(request, "auctions/create.html")
+    if request.method == 'POST':
+        form = ListingForm(request.POST)
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            print(form.cleaned_data)
+    return render(request, "auctions/create.html",
+                  {"form": ListingForm()})
