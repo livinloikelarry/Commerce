@@ -10,7 +10,9 @@
     <div class="row">
         {% for listing in listings %}
         <div class="col-3 listing-card">
-            <img class="listing-image" src="{{listing.image}}" alt="{{listing.title}}" />
+            <a href="{% url 'item' listing.id %}">
+                <img class="listing-image" src="{{listing.image}}" alt="{{listing.title}}" />
+            </a>
             <div class="listing-info">
                 <h5>${{listing.starting_bid}}</h5>
                 <a href="{% url 'item' listing.id %}"> {{listing.title}} </a>

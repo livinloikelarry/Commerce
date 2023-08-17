@@ -1,8 +1,34 @@
 {% extends "auctions/layout.html" %} {% block body%}
 <div class="container">
-  <h2>{{item.title}}</h2>
-  <img src="{{item.image}}" alt="{{item.title}}" />
-  <p>{{item.description}}</p>
-  <h2>{{item.starting_bid}}</h2>
+  <div class="row">
+    <div class="col-8 item-image">
+      <img src="{{item.image}}" alt="{{item.title}}" />
+    </div>
+    <div class="col-4">
+      <div class="row">
+        <h2>{{item.title}}</h2>
+        <h5>Current price: ${{item.starting_bid}}</h5>
+        <p>{{item.description}}</p>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="row">
+        <div class="col-6">
+          <p>Add to Watchlist</p>
+        </div>
+        <div class="col-6">
+          <button type="button" class="btn btn-success">Watchlist</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <p>Place a Bid</p>
+        </div>
+        <div class="col-6">
+          <button type="button" class="btn btn-primary">Bid</button>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
 </div>
 {% endblock %}
