@@ -2,10 +2,13 @@ body {
   padding: 10px;
 }
 .listing-image {
-  width: inherit;
+  width: 250px;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
 }
-.row.listing-item {
+.listing-card {
+  text-align: left;
   margin: 30px 0px;
-  border: solid lightgray;
-  padding: 10px;
 }
