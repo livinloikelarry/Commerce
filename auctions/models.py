@@ -20,15 +20,15 @@ class Listing(models.Model):
     image = models.URLField(blank=True)
     is_active = models.BooleanField(default=True)
     publisher = models.ForeignKey(
-        User, on_delete=models.CASCADE, blank=True, related_name="listings")
+        User, on_delete=models.CASCADE, blank=True, related_name="myListings")
     starting_bid = models.PositiveIntegerField(default=0)
-    price = models.PositiveIntegerField(default=0)
     watchlist = models.ManyToManyField(
-        User, blank=True, null=True, related_name="onWatchlist")
+        User, blank=True, null=True, related_name="myWatchlist")
     last_update = models.DateTimeField(auto_now=True)
     winner = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True, related_name="purchase")
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+        User, on_delete=models.SET_NULL, blank=True, null=True, related_name="purchased")
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f"{self.title}"
@@ -45,9 +45,12 @@ class Comment(models.Model):
 
 
 class Bid(models.Model):
-    amount = models.PositiveIntegerField()
-    bidder = models.ForeignKey(User, on_delete=models.CASCADE)
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, null=True)
+    amount = models.PositiveIntegerField(default=0)
+    bidder = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="myBid")
+    listing = models.ForeignKey(
+        Listing, on_delete=models.CASCADE, null=True, related_name="allBids")
+    date_created = models.DateField(default=datetime.now)
 
     def __str__(self):
         return f"{self.bidder} bid {self.amount}"
