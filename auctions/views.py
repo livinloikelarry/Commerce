@@ -6,19 +6,10 @@ from django.urls import reverse
 from django.forms import ModelForm
 from .models import User, Listing, Bid, Comment, Category
 
-# forms
-
-
-class ListingForm(ModelForm):
-    # missing bid and publisher
-    class Meta:
-        model = Listing
-        fields = ['title', 'description', 'image',
-                  'category', 'starting_bid']
-        exclude = ['publisher', 'buyer']
-
 
 def index(request):
+    """ Displays only the listings that are active """
+
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.filter(is_active=True)
     })
@@ -115,3 +106,7 @@ def watchlist(request):
     item = User.objects.get(watchlist)
     print(item)
     return render(request, "auctions/watchlist.html")
+
+
+def categories(request):
+    return render(request, "auctions/category.html")
