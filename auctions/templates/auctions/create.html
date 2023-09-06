@@ -7,8 +7,35 @@
   </div>
   <div class="row">
     <form action="{% url 'create_listing' %}" method="post">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" class="form-control" id="title" placeholder="Title">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" name="description" class="form-control" id="description"
+          placeholder="Description">
+      </div>
+      <div class="form-group">
+        <label for="image">Image URL</label>
+        <input type="text" name="image" class="form-control" id="image" placeholder="Image URL">
+      </div>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" name="category" id="category">
+          <option>-----</option>
+          {% for option in categories %}
+          <option value="{{option}}">{{option}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" name="starting_bid" class="form-control" id="price"
+          placeholder="Price">
+      </div>
       {% csrf_token %} {{ form }}
-      <input type="submit" value="Submit" />
+      <button type="submit" class="btn btn-success">Create</button>
     </form>
   </div>
 </div>

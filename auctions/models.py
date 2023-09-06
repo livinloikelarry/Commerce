@@ -13,22 +13,25 @@ class User(AbstractUser):
 class Category(models.Model):
     title = models.CharField(max_length=64, null=True)
 
+    def __str__(self):
+        return f"{self.title}"
+
 
 class Listing(models.Model):
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=300)
     image = models.URLField(blank=True)
     is_active = models.BooleanField(default=True)
-    publisher = models.ForeignKey(
-        User, on_delete=models.CASCADE, blank=True, related_name="myListings")
     starting_bid = models.PositiveIntegerField(default=0)
-    watchlist = models.ManyToManyField(
-        User, blank=True, null=True, related_name="myWatchlist")
     last_update = models.DateTimeField(auto_now=True)
     winner = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True, related_name="purchased")
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True)
+    publisher = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, related_name="myListings")
+    watchlist = models.ManyToManyField(
+        User, blank=True, null=True, related_name="myWatchlist")
 
     def __str__(self):
         return f"{self.title}"

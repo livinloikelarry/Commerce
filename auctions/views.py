@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.forms import ModelForm
-from .models import User, Listing, Bid, Comment
+from .models import User, Listing, Bid, Comment, Category
 
 # forms
 
@@ -77,7 +77,12 @@ def register(request):
 
 
 def create(request):
-    if request.method == 'POST':
+    allCategories = Category.objects.all()
+    if request.method == 'GET':
+        return render(request, "auctions/create.html", {
+            "categories": allCategories
+        })
+    else:
         form = ListingForm(request.POST)
         listing = form.save(commit=False)
         listing.publisher = request.user
@@ -85,8 +90,8 @@ def create(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             print(form.cleaned_data)
-    return render(request, "auctions/create.html",
-                  {"form": ListingForm()})
+        return render(request, "auctions/create.html",
+                      {"form": ListingForm()})
 
 
 def item(request, listing_id):
