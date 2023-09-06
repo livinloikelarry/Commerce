@@ -83,15 +83,25 @@ def create(request):
             "categories": allCategories
         })
     else:
-        form = ListingForm(request.POST)
-        listing = form.save(commit=False)
-        listing.publisher = request.user
+        title = request.POST["title"]
+        description = request.POST["description"]
+        image = request.POST["image"]
+        category = request.POST["category"]
+        price = request.POST["starting_bid"]
+        publisher = request.user
+        # category info for the category user selected
+        category_info = Category.objects.get(title=category)
+        # create a new listing
+        listing = Listing(
+            title=title,
+            description=description,
+            image=image,
+            category=category_info,
+            starting_bid=float(price),
+            publisher=publisher
+        )
         listing.save()
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            print(form.cleaned_data)
-        return render(request, "auctions/create.html",
-                      {"form": ListingForm()})
+        return HttpResponseRedirect(reverse("index"))
 
 
 def item(request, listing_id):
