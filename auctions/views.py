@@ -108,5 +108,13 @@ def watchlist(request):
     return render(request, "auctions/watchlist.html")
 
 
-def categories(request):
-    return render(request, "auctions/category.html")
+def category(request, title=""):
+    all_categories = Category.objects.all()
+    if title:
+        selected_category = Category.objects.get(title=title)
+    else:
+        selected_category = None
+    return render(request, "auctions/category.html", {
+        "categories": all_categories,
+        "title": title,
+        "items": selected_category})

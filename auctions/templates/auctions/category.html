@@ -1,5 +1,21 @@
 {% extends "auctions/layout.html" %} {% block body%}
 <div class="container">
-    hello
+    <div class="row">
+        <div class="col-3">
+            <ul class="nav flex-column">
+                <h3>All Categories</h3>
+                {% for option in categories %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'category' option %}">{{option}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-9">
+            <h3>
+                {{title}}
+            </h3>
+        </div>
+    </div>
 </div>
 {% endblock %}
