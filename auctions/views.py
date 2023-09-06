@@ -94,3 +94,9 @@ def item(request, listing_id):
     return render(request, "auctions/item.html", {
         "item": item
     })
+
+
+def watchlist(request):
+    item = User.objects.get(watchlist)
+    print(item)
+    return render(request, "auctions/watchlist.html")

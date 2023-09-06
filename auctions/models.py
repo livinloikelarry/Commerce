@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from datetime import datetime
 
 
 class User(AbstractUser):
@@ -9,16 +10,8 @@ class User(AbstractUser):
         return f"{self.username}"
 
 
-CATEGORY_CHOICES = (
-    ("APPAREL", "Apparel"),
-    ("ELECTRONICS", "Electronics"),
-    ("ENTERTAINMENT", "Entertainment"),
-    ("HOBBIES", "Hobbies"),
-    ("HOME", "Home"),
-    ("TOYS/GAMES", "Toys/Games"),
-    ("INSTRUMENTS", "Instruments"),
-    ("UNKNOWN", "Unknown")
-)
+class Category(models.Model):
+    title = models.CharField(max_length=64, null=True)
 
 
 class Listing(models.Model):
@@ -29,13 +22,13 @@ class Listing(models.Model):
     publisher = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, related_name="listings")
     starting_bid = models.PositiveIntegerField(default=0)
-    buyer = models.ForeignKey(
+    price = models.PositiveIntegerField(default=0)
+    watchlist = models.ManyToManyField(
+        User, blank=True, null=True, related_name="onWatchlist")
+    last_update = models.DateTimeField(auto_now=True)
+    winner = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True, related_name="purchase")
-    category = models.CharField(
-        max_length=20,
-        choices=CATEGORY_CHOICES,
-        default='UNKNOWN'
-    )
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f"{self.title}"
