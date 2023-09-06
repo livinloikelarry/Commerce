@@ -15,6 +15,23 @@
             <h3>
                 {{title}}
             </h3>
+            {% if listings %}
+            <div class="row">
+                {% for listing in listings %}
+                <div class="col-3 listing-card">
+                    <a href="{% url 'item' listing.id %}">
+                        <img class="listing-image" src="{{listing.image}}"
+                            alt="{{listing.title}}" />
+                    </a>
+                    <div class="listing-info">
+                        <h5>${{listing.starting_bid}}</h5>
+                        <a href="{% url 'item' listing.id %}"> {{listing.title}} </a>
+                        <p>{{listing.description}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -111,10 +111,11 @@ def watchlist(request):
 def category(request, title=""):
     all_categories = Category.objects.all()
     if title:
-        selected_category = Category.objects.get(title=title)
+        category = Category.objects.get(title=title)
+        items_in_selected_category = Listing.objects.filter(category=category)
     else:
         selected_category = None
     return render(request, "auctions/category.html", {
         "categories": all_categories,
         "title": title,
-        "items": selected_category})
+        "listings": items_in_selected_category})
