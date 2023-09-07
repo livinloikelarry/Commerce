@@ -71,10 +71,11 @@
         {% endif %}
       </div>
       {% endif %}
-      <div class="row">
+      <div class="row item-close-listing">
         {% if owner %}
-        <form>
-          <button type="button" class="btn btn-success">Close Listing</button>
+        <form method="POST" action="{% url 'close_listing' item.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">Close Listing</button>
         </form>
         {% endif %}
       </div>

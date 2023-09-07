@@ -24,3 +24,7 @@ body {
   margin-bottom: 20px;
   padding-bottom: 10px;
 }
+
+.item-close-listing {
+  padding-left: 10px;
+}

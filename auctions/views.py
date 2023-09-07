@@ -171,6 +171,14 @@ def make_bid(request, id):
             })
 
 
+def close_listing(request, id):
+    if request.method == "POST":
+        listing = Listing.objects.get(id=id)
+        listing.is_active = False
+        listing.save()
+    return HttpResponseRedirect(reverse("item", args=[id]))
+
+
 def category(request, title=""):
     all_categories = Category.objects.all()
     if title:
