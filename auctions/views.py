@@ -78,8 +78,8 @@ def create(request):
         description = request.POST["description"]
         image = request.POST["image"]
         category = request.POST["category"]
-        price = request.POST["starting_bid"]
         publisher = request.user
+        price = request.POST["starting_bid"]
         # category info for the category user selected
         category_info = Category.objects.get(title=category)
         # create a new listing
@@ -97,14 +97,16 @@ def create(request):
 
 def item(request, listing_id):
     item = Listing.objects.get(id=listing_id)
+    item_publisher = item.publisher
     comments = Comment.objects.filter(listing=item)
-    print(comments)
     user = request.user
     listing_in_watchlist = user in item.watchlist.all()
+    owner = True if user == item_publisher else False
     return render(request, "auctions/item.html", {
         "item": item,
         "listing_in_watchlist": listing_in_watchlist,
-        "comments": comments
+        "comments": comments,
+        "owner": owner
     })
 
 
@@ -147,7 +149,26 @@ def comment(request, id):
 def make_bid(request, id):
     if request.method == "POST":
         amount = request.POST["amount"]
-    return True
+        amount = int(amount) if amount.isdigit() else 0
+        listing = Listing.objects.get(id=id)
+        user = request.user
+        if amount > listing.starting_bid:
+            listing.starting_bid = amount
+            listing.winner = user
+            listing.save()
+            bid = Bid(amount=amount, bidder=user, listing=listing)
+            bid.save()
+            return render(request, "auctions/item.html", {
+                "item": listing,
+                "status": True,
+                "update": True
+            })
+        else:
+            return render(request, "auctions/item.html", {
+                "item": listing,
+                "status": False,
+                "update": True
+            })
 
 
 def category(request, title=""):

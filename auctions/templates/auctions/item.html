@@ -23,7 +23,7 @@
       {% if user.is_authenticated %}
       <div class="row">
         <div class="col-4">
-          <p>Best offer:</p>
+          <p>Place Bid:</p>
         </div>
         {% if listing_in_watchlist %}
         <div class="col-8">
@@ -45,18 +45,37 @@
       </div>
       <div class="row">
         <div class="col-4">
-          <form method="POST" action="{% url 'make_bid' id %}">
+          <form method="POST" action="{% url 'make_bid' id=item.id %}" id="bid-form">
+            {% csrf_token %}
             <div class="form-group">
-              <input type="currency" class="form-control" name="amount" id="amount"
+              <input type="number" class="form-control" value="0" name="amount" min="0" id="amount"
                 placeholder="amount">
             </div>
           </form>
         </div>
         <div class="col-8">
-          <button type="button" class="btn btn-primary">Make Offer</button>
+          <button form="bid-form" type="submit" class="btn btn-primary">Bid</button>
         </div>
       </div>
+      <div>
+        {% if update %}
+        {% if status %}
+        <div class="alert alert-success" role="alert">
+          Bid placed!
+        </div>
+        {% else %}
+        <div class="alert alert-danger" role="alert">
+          You must bid more than the current price
+        </div>
+        {% endif %}
+        {% endif %}
+      </div>
       {% endif %}
+      <div class="row">
+        {% if owner %}
+        <button type="button" class="btn btn-success">Success</button>
+        {% endif %}
+      </div>
     </div>
   </div>
   <div class='row'>
