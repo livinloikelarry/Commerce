@@ -102,11 +102,13 @@ def item(request, listing_id):
     user = request.user
     listing_in_watchlist = user in item.watchlist.all()
     owner = True if user == item_publisher else False
+    winner = True if not item.is_active and item.winner == user else False
     return render(request, "auctions/item.html", {
         "item": item,
         "listing_in_watchlist": listing_in_watchlist,
         "comments": comments,
-        "owner": owner
+        "owner": owner,
+        'winner': winner
     })
 
 

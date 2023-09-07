@@ -20,7 +20,7 @@
       <div class="row item-description">
         <p>{{item.description}}</p>
       </div>
-      {% if user.is_authenticated %}
+      {% if user.is_authenticated and item.is_active %}
       <div class="row">
         <div class="col-4">
           <p>Place Bid:</p>
@@ -79,6 +79,13 @@
         </form>
         {% endif %}
       </div>
+      {% if winner %}
+      <div class="row">
+        <div class="alert alert-success" role="alert">
+          You won the auction! This item is now yours for the price of ${{item.starting_bid}}
+        </div>
+      </div>
+      {% endif %}
     </div>
   </div>
   <div class='row'>
