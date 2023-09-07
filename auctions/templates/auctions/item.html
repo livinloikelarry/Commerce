@@ -57,7 +57,7 @@
           <button form="bid-form" type="submit" class="btn btn-primary">Bid</button>
         </div>
       </div>
-      <div>
+      <div class="item-bid-status">
         {% if update %}
         {% if status %}
         <div class="alert alert-success" role="alert">
@@ -73,7 +73,9 @@
       {% endif %}
       <div class="row">
         {% if owner %}
-        <button type="button" class="btn btn-success">Success</button>
+        <form>
+          <button type="button" class="btn btn-success">Close Listing</button>
+        </form>
         {% endif %}
       </div>
     </div>

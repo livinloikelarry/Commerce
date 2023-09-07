@@ -17,8 +17,10 @@ body {
   object-position: center;
 }
 .item-title,
+.item-bid-status,
 .item-publisher,
 .item-description {
   border-bottom: 1px solid darkgray;
   margin-bottom: 20px;
+  padding-bottom: 10px;
 }
