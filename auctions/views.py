@@ -97,7 +97,8 @@ def create(request):
 
 def item(request, listing_id):
     item = Listing.objects.get(id=listing_id)
-    listing_in_watchlist = True
+    user = request.user
+    listing_in_watchlist = user in item.watchlist.all()
     return render(request, "auctions/item.html", {
         "item": item,
         "listing_in_watchlist": listing_in_watchlist
@@ -107,10 +108,27 @@ def item(request, listing_id):
 def watchlist(request):
     user = request.user
     items_on_watchlist = Listing.objects.filter(watchlist=user)
-    print(items_on_watchlist)
     return render(request, "auctions/watchlist.html", {
         "listings": items_on_watchlist
     })
+
+
+def add_to_watchlist(request, id):
+    listing = Listing.objects.get(id=id)
+    user = request.user
+    # what to do if update not successful
+    listing.watchlist.add(user)
+    listing.save()
+    return HttpResponseRedirect(reverse("item", args=[id]))
+
+
+def remove_from_watchlist(request, id):
+    listing = Listing.objects.get(id=id)
+    user = request.user
+    # what to do if update not successful
+    listing.watchlist.remove(user)
+    listing.save()
+    return HttpResponseRedirect(reverse("item", args=[id]))
 
 
 def category(request, title=""):
