@@ -9,7 +9,15 @@
         {% for listing in listings %}
         <div class="col-3 listing-card">
             <a href="{% url 'item' listing.id %}">
+                {% if listing.winner == user and not listing.is_active  %}
+                <img class="listing-image watchlist-winner" src="{{listing.image}}"
+                    alt="{{listing.title}}" />
+                {% elif listing.winner != user and not listing.is_active %}
+                <img class="listing-image watchlist-loser" src="{{listing.image}}"
+                    alt="{{listing.title}}" />
+                {% else %}
                 <img class="listing-image" src="{{listing.image}}" alt="{{listing.title}}" />
+                {% endif %}
             </a>
             <div class="listing-info">
                 <h5>${{listing.starting_bid}}</h5>
