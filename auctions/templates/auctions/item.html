@@ -10,24 +10,25 @@
         <h5>Current price: ${{item.starting_bid}}</h5>
         <p>{{item.description}}</p>
       </div>
+      <div class="row">
+        <p>Listed By: </p>
+        <p>{{item.publisher}}</p>
+      </div>
       {% if user.is_authenticated %}
       <div class="row">
-        <div class="col-6">
-          <p>Add to Watchlist</p>
-        </div>
-        <div class="col-6">
-          <button type="button" class="btn btn-success">Watchlist</button>
-        </div>
+        <button type="button" class="btn btn-success">
+          {% if listing_in_watchlist %}
+          Add To Watchlist
+          {% else %}
+          Remove From Watchlist
+          {% endif %}
+        </button>
       </div>
       <div class="row">
-        <div class="col-6">
-          <p>Place a Bid</p>
-        </div>
-        <div class="col-6">
-          <button type="button" class="btn btn-primary">Bid</button>
-        </div>
+        <button type="button" class="btn btn-primary">Bid</button>
       </div>
       {% endif %}
+
     </div>
   </div>
 </div>

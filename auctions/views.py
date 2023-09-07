@@ -97,24 +97,30 @@ def create(request):
 
 def item(request, listing_id):
     item = Listing.objects.get(id=listing_id)
+    listing_in_watchlist = True
     return render(request, "auctions/item.html", {
-        "item": item
+        "item": item,
+        "listing_in_watchlist": listing_in_watchlist
     })
 
 
 def watchlist(request):
-    item = User.objects.get(watchlist)
-    print(item)
-    return render(request, "auctions/watchlist.html")
+    user = request.user
+    items_on_watchlist = Listing.objects.filter(watchlist=user)
+    print(items_on_watchlist)
+    return render(request, "auctions/watchlist.html", {
+        "listings": items_on_watchlist
+    })
 
 
 def category(request, title=""):
     all_categories = Category.objects.all()
     if title:
         category = Category.objects.get(title=title)
-        items_in_selected_category = Listing.objects.filter(category=category)
+        items_in_selected_category = Listing.objects.filter(
+            category=category, is_active=True)
     else:
-        selected_category = None
+        items_in_selected_category = None
     return render(request, "auctions/category.html", {
         "categories": all_categories,
         "title": title,
