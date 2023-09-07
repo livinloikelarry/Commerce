@@ -44,7 +44,7 @@ class Comment(models.Model):
         User, on_delete=models.CASCADE, related_name="comments")
 
     def __str__(self):
-        return f"on '{self.listing}', {self.publisher} said: {self.message}"
+        return f"{self.message}"
 
 
 class Bid(models.Model):

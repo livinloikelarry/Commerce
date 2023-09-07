@@ -97,11 +97,14 @@ def create(request):
 
 def item(request, listing_id):
     item = Listing.objects.get(id=listing_id)
+    comments = Comment.objects.filter(listing=item)
+    print(comments)
     user = request.user
     listing_in_watchlist = user in item.watchlist.all()
     return render(request, "auctions/item.html", {
         "item": item,
-        "listing_in_watchlist": listing_in_watchlist
+        "listing_in_watchlist": listing_in_watchlist,
+        "comments": comments
     })
 
 
@@ -129,6 +132,22 @@ def remove_from_watchlist(request, id):
     listing.watchlist.remove(user)
     listing.save()
     return HttpResponseRedirect(reverse("item", args=[id]))
+
+
+def comment(request, id):
+    if request.method == "POST":
+        message = request.POST["comment"]
+        listing = Listing.objects.get(id=id)
+        user = request.user
+        comment = Comment(listing=listing, message=message, publisher=user)
+        comment.save()
+    return HttpResponseRedirect(reverse("item", args=[id]))
+
+
+def make_bid(request, id):
+    if request.method == "POST":
+        amount = request.POST["amount"]
+    return True
 
 
 def category(request, title=""):
