@@ -72,11 +72,16 @@
       </div>
       {% endif %}
       <div class="row item-close-listing">
-        {% if owner %}
+        {% if owner and item.is_active %}
         <form method="POST" action="{% url 'close_listing' item.id %}">
           {% csrf_token %}
           <button type="submit" class="btn btn-success">Close Listing</button>
         </form>
+        {% endif %}
+        {% if owner and not item.is_active %}
+        <div class="alert alert-danger" role="alert">
+          You closed the listing
+        </div>
         {% endif %}
       </div>
       {% if winner %}
