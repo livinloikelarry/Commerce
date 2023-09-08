@@ -25,7 +25,7 @@
         <div class="col-4">
           <p>Place Bid:</p>
         </div>
-        {% if listing_in_watchlist %}
+        {% if listing_in_watchlist or update and status %}
         <div class="col-8">
           <form action="{% url 'remove_from_watchlist' id=item.id %}" method="POST">
             {% csrf_token %}

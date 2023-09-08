@@ -95,23 +95,6 @@ def create(request):
         return HttpResponseRedirect(reverse("index"))
 
 
-def item(request, listing_id):
-    item = Listing.objects.get(id=listing_id)
-    item_publisher = item.publisher
-    comments = Comment.objects.filter(listing=item)
-    user = request.user
-    listing_in_watchlist = user in item.watchlist.all()
-    owner = True if user == item_publisher else False
-    winner = True if not item.is_active and item.winner == user else False
-    return render(request, "auctions/item.html", {
-        "item": item,
-        "listing_in_watchlist": listing_in_watchlist,
-        "comments": comments,
-        "owner": owner,
-        'winner': winner
-    })
-
-
 def watchlist(request):
     user = request.user
     items_on_watchlist = Listing.objects.filter(watchlist=user)
@@ -158,6 +141,8 @@ def make_bid(request, id):
         if amount > listing.starting_bid:
             listing.starting_bid = amount
             listing.winner = user
+            # add to watchlist
+            listing.watchlist.add(user)
             listing.save()
             bid = Bid(amount=amount, bidder=user, listing=listing)
             bid.save()
@@ -172,6 +157,23 @@ def make_bid(request, id):
                 "status": False,
                 "update": True
             })
+
+
+def item(request, listing_id):
+    item = Listing.objects.get(id=listing_id)
+    item_publisher = item.publisher
+    comments = Comment.objects.filter(listing=item)
+    user = request.user
+    listing_in_watchlist = user in item.watchlist.all()
+    owner = True if user == item_publisher else False
+    winner = True if not item.is_active and item.winner == user else False
+    return render(request, "auctions/item.html", {
+        "item": item,
+        "listing_in_watchlist": listing_in_watchlist,
+        "comments": comments,
+        "owner": owner,
+        'winner': winner
+    })
 
 
 def close_listing(request, id):
